@@ -26,7 +26,7 @@ $files += Get-VaultFiles -Properties    @{"File Extension"="idw"}
 $files = $files | Where-Object { $_.'File Extension' -Match "^(idw|dwg)" } #| Select-Object -First 10
 
 foreach ($file in $files) {
-    $fastOpen = $file._Extension -eq "dwg" -or $file._Extension -eq "idw"-and $file._ReleasedRevision
+    $fastOpen = ($file._Extension -eq "dwg" -or $file._Extension -eq "idw")-and $file._ReleasedRevision
     Save-VaultFile -File $file._FullPath -DownloadDirectory $workingDirectory -ExcludeChildren:$fastOpen -ExcludeLibraryContents:$fastOpen | Out-Null
     $Title = [System.IO.Path]::GetFileNameWithoutExtension($file._FullPath)
     $localInventorFileLocation = "$workingDirectory\$Title.dxf"
